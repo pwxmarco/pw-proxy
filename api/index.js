@@ -1,38 +1,40 @@
 export default async function handler(req, res) {
 
-const url = "https://pwthor.site/study/batches";
+const url = "https://pwthor.site/study/";
 
-const response = await fetch(url, {
+const response = await fetch(url,{
 headers:{
-"User-Agent":"Mozilla/5.0"
+"User-Agent":"Mozilla/5.0",
+"Accept":"text/html"
 }
 });
 
 let html = await response.text();
 
 /* header hide */
-
 html = html.replace(/<header[\s\S]*?<\/header>/gi,"");
 
-/* overlay */
+/* nav hide */
+html = html.replace(/<nav[\s\S]*?<\/nav>/gi,"");
 
-html = html.replace("<body",`
-<body>
+/* overlay */
+html = html.replace("<body>",
+`<body style="margin-top:60px;">
 <div style="
 position:fixed;
 top:0;
 left:0;
 width:100%;
-height:55px;
+height:60px;
 background:white;
 z-index:999999;
 display:flex;
 align-items:center;
 justify-content:center;
-font-weight:bold;">
+font-weight:bold;
+font-size:18px;">
 PW BY MARCO
-</div>
-`);
+</div>`);
 
 res.setHeader("Content-Type","text/html");
 res.send(html);
